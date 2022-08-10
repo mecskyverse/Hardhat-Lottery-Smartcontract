@@ -1,0 +1,40 @@
+Arguments: 
+  /home/mecskyverse/.nvm/versions/node/v16.14.2/bin/node /home/mecskyverse/.node/corepack/yarn/1.22.15/bin/yarn.js add --dev @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers ethers @nomiclabs/hardhat-etherscan @nomiclabs/hardhat-waffle chai ethereum-waffle hardhat hardhat-contract-sizer hardhat-deploy hardhat-gas-reporter prettier prettier-plugin-solidity solhint solidity-coverage dotenv~
+
+PATH: 
+  /home/mecskyverse/.vscode-server/bin/da76f93349a72022ca4670c1b84860304616aaa2/bin/remote-cli:/home/mecskyverse/.nvm/versions/node/v16.14.2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/KaliLinux.54290C8133FEE_1.12.0.0_x64__ey8k8hqnwqnmg:/mnt/c/Python310/Scripts/:/mnt/c/Python310/:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/MinGW/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/ProgramData/DockerDesktop/version-bin:/mnt/c/Program Files/nodejs/:/mnt/c/Users/ADMIN/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/ADMIN/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/JetBrains/IntelliJ IDEA Community Edition 2021.3.3/bin:/mnt/c/Users/ADMIN/AppData/Roaming/npm
+
+Yarn version: 
+  1.22.15
+
+Node version: 
+  16.14.2
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/dotenv~: Not found
+      at Request.params.callback [as _callback] (/home/mecskyverse/.node/corepack/yarn/1.22.15/lib/cli.js:66140:18)
+      at Request.self.callback (/home/mecskyverse/.node/corepack/yarn/1.22.15/lib/cli.js:140885:22)
+      at Request.emit (node:events:526:28)
+      at Request.<anonymous> (/home/mecskyverse/.node/corepack/yarn/1.22.15/lib/cli.js:141857:10)
+      at Request.emit (node:events:526:28)
+      at IncomingMessage.<anonymous> (/home/mecskyverse/.node/corepack/yarn/1.22.15/lib/cli.js:141779:12)
+      at Object.onceWrapper (node:events:645:28)
+      at IncomingMessage.emit (node:events:538:35)
+      at endReadableNT (node:internal/streams/readable:1345:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+
+npm manifest: 
+  {
+    "devDependencies": {
+      "hardhat": "^2.10.1"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
