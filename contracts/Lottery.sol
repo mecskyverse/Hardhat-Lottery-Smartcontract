@@ -1,10 +1,17 @@
 //SPDX-License-Identifier: MIT
-
 pragma solidity ^0.8.7;
+
 Raffle__NotEnoughEthENtered();
+
 contract Raffle {
+    /*State Variables */
     uint256 private immutable i_entranceFee;
     address payable[] private s_players;
+
+    /*Events*/
+    event RaffleEnter(address indexed player);
+
+    /*Constructor*/
     constructor(uint256 entranceFee) {
         i_entranceFee = entranceFee;
     }
@@ -13,6 +20,7 @@ contract Raffle {
             revert Raffle__NotEnoughEthENtered();
         }
         s_players.push(payable(msg.sender));
+        emit RaffleEnter(msg.sender);
     }
 
     function getEntranceFee() public view returns (uint256) {
