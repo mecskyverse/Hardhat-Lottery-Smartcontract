@@ -1,6 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
+import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
+
 Raffle__NotEnoughEthENtered();
 
 contract Raffle {
