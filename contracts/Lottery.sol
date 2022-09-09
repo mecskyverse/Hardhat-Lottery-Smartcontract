@@ -30,7 +30,8 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     /* Lottery Variables*/
     address private s_recentWinner;
     RaffleState private s_raffleState;
-
+    uint256 private immutable i_interval;
+    uint256 private s_lastTimeStamp;
     /*Events*/
     event RaffleEnter(address indexed player);
     event RequestedRaffleWinner(uint256 indexed requestId);
@@ -40,6 +41,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     constructor(
         address vrfCoordinatorV2,
         uint256 entranceFee,
+        uint256 interval,
         bytes32 gasLane,
         uint64 subscriptionId,
         uint32 callbackGasLimit
@@ -50,6 +52,8 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         i_subscriptionId = subscriptionId;
         i_callbackGasLimit = callbackGasLimit;
         s_raffleState = RaffleState.OPEN;
+        s_lastTimeStamp = block.timestamp;
+        i_interval = interval;
     }
 
     function enterRaffle() public payable {
@@ -72,16 +76,27 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
      * 3. The contract has ETH.
      * 4. Implicity, your subscription is funded with LINK.
      **/
-    function checkUpKeep(bytes memory checkData)
+    function checkUpKeep(
+        bytes memory /*checkData*/
+    )
         public
         view
-        override
-        returns (bool upKeepNeeded, bytes memory performData)
+        returns (
+            bool upKeepNeeded,
+            bytes memory /*performData*/
+        )
     {
-        bool isOpen = RaffleState.OPEN == s_raffleState;
+        bool isOpen = (RaffleState.OPEN == s_raffleState);
+        bool timePassed = ((block.timestamp - s_lastTimeStamp) > i_interval);
+        bool hasEth = (address(this).balance > 0);
+        bool hasPlayers = s_players.length > 0;
+
+        upKeepNeeded = (timePassed && isOpen && hasEth && hasPlayers);
+        return (upKeepNeeded, "0x0");
     }
 
     function requestRandomWinner() external {
+        s_raffleState = RaffleState.CALCULATING;
         uint256 requestId = i_vrfCoordinator.requestRandomWords(
             i_gasLane,
             i_subscriptionId,
@@ -89,6 +104,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
             i_callbackGasLimit,
             NUM_WORDS
         );
+
         emit RequestedRaffleWinner(requestId);
     }
 
@@ -99,6 +115,9 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         uint256 indexOfWinner = randomWords[0] % s_players.length;
         address payable recentWinner = s_players[indexOfWinner];
         s_recentWinner = recentWinner;
+        s_players = new address payable[](0);
+        s_raffleState = RaffleState.OPEN;
+
         (bool success, ) = recentWinner.call{value: address(this).balance}("");
         if (!success) {
             revert Raffle__TransactionNotSuccessfull();
