@@ -6,6 +6,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/KeeperCompatible.sol";
 
 //Errors
+error Raffle__UpKeepNotNeeded(uint256 currentBalance, uint256 numPlayers, uint256 raffleState);
 error Raffle__NotEnoughEthENtered();
 error Raffle__TransactionNotSuccessfull();
 error Raffle__NotOpen();
@@ -33,6 +34,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     uint256 private immutable i_interval;
     uint256 private s_lastTimeStamp;
     /*Events*/
+
     event RaffleEnter(address indexed player);
     event RequestedRaffleWinner(uint256 indexed requestId);
     event WinnerPicked(address indexed recentWinner);
@@ -95,7 +97,17 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         return (upKeepNeeded, "0x0");
     }
 
-    function requestRandomWinner() external {
+    function performUpkeep(
+        bytes calldata /* performData */
+    ) external override {
+        (bool upKeepNeeded, ) = checkUpKeep("");
+        if (!upKeepNeeded) {
+            revert Raffle__UpKeepNotNeeded(
+                address(this).balance,
+                s_players.length,
+                uint256(s_raffleState)
+            );
+        }
         s_raffleState = RaffleState.CALCULATING;
         uint256 requestId = i_vrfCoordinator.requestRandomWords(
             i_gasLane,
