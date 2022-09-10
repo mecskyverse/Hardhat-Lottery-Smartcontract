@@ -1,2 +1,13 @@
+#hardhat 
 node_modules
-node_modules
+artifacts
+cache
+deployements
+coverage 
+coverage.json
+typechain
+#vscode
+.vscode
+#enviroment variables
+.env
+
