@@ -11,7 +11,13 @@ error Raffle__NotEnoughEthENtered();
 error Raffle__TransactionNotSuccessfull();
 error Raffle__NotOpen();
 
-contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
+/**@title A sample Ralle Contract
+ * @author Aakash Verma
+ * @notice This contract is for creating an untemperable decentralized smart contract
+ * @dev This implements Chainlink VRF v2and chainlink keepers
+ */
+
+abstract contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     //Type Declaration
     enum RaffleState {
         OPEN,
@@ -88,7 +94,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
             bytes memory /*performData*/
         )
     {
-        bool isOpen = (RaffleState.OPEN == s_raffleState);
+        bool isOpen = RaffleState.OPEN == s_raffleState;
         bool timePassed = ((block.timestamp - s_lastTimeStamp) > i_interval);
         bool hasEth = (address(this).balance > 0);
         bool hasPlayers = s_players.length > 0;
@@ -129,7 +135,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         s_recentWinner = recentWinner;
         s_players = new address payable[](0);
         s_raffleState = RaffleState.OPEN;
-
+        s_lastTimeStamp = block.timestamp;
         (bool success, ) = recentWinner.call{value: address(this).balance}("");
         if (!success) {
             revert Raffle__TransactionNotSuccessfull();
