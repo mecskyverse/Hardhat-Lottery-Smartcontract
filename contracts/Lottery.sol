@@ -159,4 +159,12 @@ abstract contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     function getLastTimeStamp() public view returns (uint256) {
         return s_lastTimeStamp;
     }
+
+    function getInterval() public view returns (uint256) {
+        return i_interval;
+    }
+
+    function getNumberOfPlayers() public view returns (uint256) {
+        return s_players.length;
+    }
 }
