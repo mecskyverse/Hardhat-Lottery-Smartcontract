@@ -6,8 +6,8 @@ require("hardhat-gas-reporter")
 require("hardhat-contract-sizer")
 require("dotenv").config()
 
-const RINKEBY_RPC_URL = process.env.rinkebyRpcUrl
-const PRIVATE_KEY = process.env.rinkebyKey
+const GOERLI_RPC_URL = process.env.GoerliRpcUrl
+const PRIVATE_KEY = process.env.GoerliKey
 
 module.exports = {
     defaultNetwork: "hardhat",
@@ -15,9 +15,9 @@ module.exports = {
         hardhat: {
             chainId: 31337,
         },
-        rinkeby: {
-            chainId: 4,
-            url: RINKEBY_RPC_URL,
+        goerli: {
+            chainId: 5,
+            url: GOERLI_RPC_URL,
             accounts: [PRIVATE_KEY],
             blockConfirmations: 6,
         },
