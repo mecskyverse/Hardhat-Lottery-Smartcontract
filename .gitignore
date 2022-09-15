@@ -2,7 +2,7 @@
 node_modules
 artifacts
 cache
-deployements
+deployments
 coverage 
 coverage.json
 typechain
