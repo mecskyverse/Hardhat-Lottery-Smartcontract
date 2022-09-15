@@ -1,9 +1,9 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
-import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
-import "@chainlink/contracts/src/v0.8/KeeperCompatible.sol";
+import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/KeeperCompatibleInterface.sol";
 
 //Errors
 error Raffle__UpKeepNotNeeded(uint256 currentBalance, uint256 numPlayers, uint256 raffleState);
@@ -17,7 +17,7 @@ error Raffle__NotOpen();
  * @dev This implements Chainlink VRF v2and chainlink keepers
  */
 
-abstract contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
+contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     //Type Declaration
     enum RaffleState {
         OPEN,
@@ -84,11 +84,12 @@ abstract contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
      * 3. The contract has ETH.
      * 4. Implicity, your subscription is funded with LINK.
      **/
-    function checkUpKeep(
+    function checkUpkeep(
         bytes memory /*checkData*/
     )
         public
         view
+        override
         returns (
             bool upKeepNeeded,
             bytes memory /*performData*/
@@ -106,7 +107,7 @@ abstract contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     function performUpkeep(
         bytes calldata /* performData */
     ) external override {
-        (bool upKeepNeeded, ) = checkUpKeep("");
+        (bool upKeepNeeded, ) = checkUpkeep("");
         if (!upKeepNeeded) {
             revert Raffle__UpKeepNotNeeded(
                 address(this).balance,
