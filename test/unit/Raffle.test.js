@@ -4,7 +4,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
 
 !developmentChains.includes(network.name)
     ? describe.skip
-    : describe("Raffle Unit Test", async function () {
+    : describe("Raffle Unit Test", function () {
           let raffle, vrfCoordinatorV2Mock, raffleEntranceFee, deployer, interval
 
           const chainId = network.config.chainId
@@ -16,7 +16,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
               raffleEntranceFee = raffle.getEntranceFee()
               interval = await raffle.getInterval()
           })
-          describe("constructor", async function () {
+          describe("constructor", function () {
               it("initializes the raffle correctly", async function () {
                   //Ideally we make our test have just 1 assert per it
                   const raffleState = await raffle.getRaffleState()
@@ -25,7 +25,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   assert.equal(interval.toString(), networkConfig[chainId].interval)
               })
           })
-          describe("enterRaffle", async function () {
+          describe("enterRaffle", function () {
               it("reverts when you don't pay enough", async function () {
                   await expect(raffle.enterRaffle()).to.be.revertedWith(
                       "Raffle__NotEnoughEthENtered"
@@ -52,7 +52,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                   )
               })
           })
-          describe("checkUpkeep", async function () {
+          describe("checkUpkeep", function () {
               it("returns False if people haven't sent enough ETH", async function () {
                   await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
                   await network.provider.send("evm_mine", [])
