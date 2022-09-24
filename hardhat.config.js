@@ -28,6 +28,10 @@ module.exports = {
             goerli: ETHERSCAN_API_KEY,
         },
     },
+    mocha: {
+        timeout: 400000,
+    },
+
     gasReporter: {
         enabled: false,
         currency: "USD",
