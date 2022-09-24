@@ -8,7 +8,7 @@ require("dotenv").config()
 
 const GOERLI_RPC_URL = process.env.GoerliRpcUrl
 const PRIVATE_KEY = process.env.GoerliKey
-
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY
 module.exports = {
     defaultNetwork: "hardhat",
     networks: {
@@ -20,6 +20,12 @@ module.exports = {
             url: GOERLI_RPC_URL,
             accounts: [PRIVATE_KEY],
             blockConfirmations: 6,
+        },
+    },
+    etherscan: {
+        // yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
+        apiKey: {
+            goerli: ETHERSCAN_API_KEY,
         },
     },
     gasReporter: {
