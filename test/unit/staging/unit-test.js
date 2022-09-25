@@ -14,7 +14,7 @@ developmentChains.includes(network.name)
           })
 
           describe("fulfillRandomWords", function () {
-              it("works with live Chainlink Keepers and Chainlink VRF, we get a random winner", async function () {
+              it("should get response from chainlink keepers and chainlink vrf, we get a random winner", async function () {
                   // enter the raffle
                   console.log("Setting up test...")
                   const startingTimeStamp = await raffle.getLastTimeStamp()
