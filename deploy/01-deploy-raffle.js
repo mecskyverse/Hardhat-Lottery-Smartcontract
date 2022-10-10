@@ -1,4 +1,4 @@
-const { deployments, network, ethers } = require("hardhat")
+const { network, ethers } = require("hardhat")
 const {
     developmentChains,
     networkConfig,
