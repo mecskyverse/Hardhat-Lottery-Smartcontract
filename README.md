@@ -1,6 +1,7 @@
 ## Hardhat Lottery Project
 
 This project is demonstration for Lottery system to all the participants with fair results.
+It uses the Chainlink to get some offchain data securely.
 
 Try running some of the following tasks:
 
